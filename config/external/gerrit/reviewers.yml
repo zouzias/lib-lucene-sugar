@@ -1,0 +1,8 @@
+default: &default
+  - fferoldi@gilt.com
+
+master:
+  *default
+
+stage:
+  *default
