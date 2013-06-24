@@ -1,4 +1,4 @@
-package com.giltgroupe.scala.lucene
+package com.giltgroupe.lucene
 
 trait LuceneDefaultSearchField {
   protected val defaultSearchField: String

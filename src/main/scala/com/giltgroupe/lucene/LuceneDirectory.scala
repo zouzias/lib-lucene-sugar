@@ -1,4 +1,4 @@
-package com.giltgroupe.scala.lucene
+package com.giltgroupe.lucene
 
 import java.io.File
 import org.apache.lucene.store.{MMapDirectory, SimpleFSDirectory, RAMDirectory, Directory}

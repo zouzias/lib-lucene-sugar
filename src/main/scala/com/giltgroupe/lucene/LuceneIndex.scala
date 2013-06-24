@@ -1,4 +1,4 @@
-package com.giltgroupe.scala.lucene
+package com.giltgroupe.lucene
 
 import org.apache.lucene.util.Version
 import org.apache.lucene.analysis.Analyzer

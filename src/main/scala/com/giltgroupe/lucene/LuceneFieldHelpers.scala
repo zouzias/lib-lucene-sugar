@@ -1,4 +1,4 @@
-package com.giltgroupe.scala.lucene
+package com.giltgroupe.lucene
 
 import org.apache.lucene.document.{LongField, StoredField, StringField, Document}
 import org.apache.lucene.document.Field.Store
