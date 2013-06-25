@@ -1,8 +1,15 @@
 package com.giltgroupe.lucene
 
-import org.apache.lucene.document.{LongField, StoredField, StringField, Document}
+import org.apache.lucene.document._
 import org.apache.lucene.document.Field.Store
 
+object LuceneText {
+  implicit def stringToLuceneTextWrapper(v: String) = new {
+    def toLuceneText = new LuceneText(v)
+  }
+}
+
+case class LuceneText(text: String)
 
 object LuceneFieldHelpers {
   import annotation.implicitNotFound
@@ -25,12 +32,52 @@ object LuceneFieldHelpers {
       }
     }
 
+    implicit object LuceneFieldLikeText extends LuceneFieldLike[LuceneText] {
+      def addIndexedField(doc: Document, name: String, value: LuceneText, stored: Store) {
+        doc.add(new StringField(name, value.text, stored))
+      }
+
+      def addStoredOnlyField(doc: Document, name: String, value: LuceneText) {
+        doc.add(new StoredField(name, value.text))
+      }
+    }
+
+    implicit object LuceneFieldLikeInt extends LuceneFieldLike[Int] {
+      def addIndexedField(doc: Document, name: String, value: Int, stored: Store) {
+        doc.add(new IntField(name, value, stored))
+      }
+
+      def addStoredOnlyField(doc: Document, name: String, value: Int) {
+        doc.add(new StoredField(name, value))
+      }
+    }
+
     implicit object LuceneFieldLikeLong extends LuceneFieldLike[Long] {
       def addIndexedField(doc: Document, name: String, value: Long, stored: Store) {
         doc.add(new LongField(name, value, stored))
       }
 
       def addStoredOnlyField(doc: Document, name: String, value: Long) {
+        doc.add(new StoredField(name, value))
+      }
+    }
+
+    implicit object LuceneFieldLikeFloat extends LuceneFieldLike[Float] {
+      def addIndexedField(doc: Document, name: String, value: Float, stored: Store) {
+        doc.add(new FloatField(name, value, stored))
+      }
+
+      def addStoredOnlyField(doc: Document, name: String, value: Float) {
+        doc.add(new StoredField(name, value))
+      }
+    }
+
+    implicit object LuceneFieldLikeDouble extends LuceneFieldLike[Double] {
+      def addIndexedField(doc: Document, name: String, value: Double, stored: Store) {
+        doc.add(new DoubleField(name, value, stored))
+      }
+
+      def addStoredOnlyField(doc: Document, name: String, value: Double) {
         doc.add(new StoredField(name, value))
       }
     }
