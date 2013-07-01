@@ -10,8 +10,17 @@ import javax.annotation.Nonnull
  * Base trait for configuring the Directory of a Lucene index
  */
 trait LuceneDirectory {
+  /**
+   * The Lucene Directory object, must be defined by one of the concrete classes
+   */
   protected def directory: Directory
 
+  /**
+   * Calls the provided function with an instance of an Option[DirectoryReader] that
+   * gets created from the current Lucene Directory object.
+   * When the parameter is None, it means that the index has not
+   * been created yet, or it's corrupted.
+   */
   def withDirectoryReader[T](@Nonnull f: Option[DirectoryReader] => T): T =
     try {
       val indexReader = DirectoryReader.open(directory)
@@ -25,6 +34,12 @@ trait LuceneDirectory {
         f(None)
     }
 
+  /**
+   * Calls the provided function with an instance of an Option[IndexSearcher] that
+   * gets created from the current Lucene Directory object.
+   * When the parameter is None, it means that the index has not
+   * been created yet, or it's corrupted.
+   */
   def withIndexSearcher[T](@Nonnull f: Option[IndexSearcher] => T): T =
     withDirectoryReader { indexReaderOpt =>
       f(indexReaderOpt.map(new IndexSearcher(_)))
@@ -33,45 +48,27 @@ trait LuceneDirectory {
 }
 
 /**
- * Configures a Lucene index to use a RAM based directory to store the index
+ * A LuceneDirectory that uses a RAM based directory to store the index
  */
 trait RamLuceneDirectory extends LuceneDirectory {
+  /**
+   * The instance of a RAM based Directory
+   */
   protected lazy val directory = new RAMDirectory()
 }
 
-trait LuceneIndexPathProvider {
-  protected def withIndexPath[T](f: (File) => T): T
+/**
+ * A LuceneDirectory that based on filesystem
+ */
+trait FSLuceneDirectory extends LuceneDirectory {
+  self: LuceneIndexPathProvider with FSLuceneDirectoryCreator =>
+  protected lazy val directory = withIndexPath(luceneDirectoryFromPath)
 }
 
-trait ServiceRootLuceneDirectory extends LuceneIndexPathProvider {
-  private lazy val INDEX_DIRECTORY = "index"
-  private lazy val serviceRootPath = System.getProperty("user.dir")
-  private lazy val indexPath = new File(serviceRootPath, INDEX_DIRECTORY).getAbsolutePath
-
-  protected def withIndexPath[T](f: (File) => T): T = {
-    val indexFilePath = new File(indexPath)
-    indexFilePath.mkdirs() // make sure path exist
-    f(indexFilePath)
-  }
-
-}
-
-trait FSLuceneDirectoryCreator {
-  def luceneDirectoryFromPath(path: File): Directory
-}
-
-trait SimpleFSLuceneDirectoryCreator extends FSLuceneDirectoryCreator {
-  def luceneDirectoryFromPath(path: File) = new SimpleFSDirectory(path)
-}
-
-trait MMapFSLuceneDirectoryCreator extends FSLuceneDirectoryCreator {
-  def luceneDirectoryFromPath(path: File) = new MMapDirectory(path)
-}
-
-trait FSLuceneDirectory extends LuceneDirectory { self: LuceneIndexPathProvider =>
-  protected lazy val directory = withIndexPath { (path) =>
-    new SimpleFSDirectory(path)
-  }
-}
-
-trait DefaultFSLuceneDirectory extends FSLuceneDirectory with ServiceRootLuceneDirectory with SimpleFSLuceneDirectoryCreator
+/**
+ * A LuceneDirectory that uses a SimpleFSDirectory based on the ServiceRootLucenePathProvider
+ */
+trait DefaultFSLuceneDirectory
+  extends FSLuceneDirectory
+  with ServiceRootLucenePathProvider
+  with SimpleFSLuceneDirectoryCreator
