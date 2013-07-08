@@ -38,7 +38,7 @@ trait LuceneIndex extends LuceneIndexWriter with LuceneVersion { self: LuceneDir
   @Nonnull
   def allDocuments: Iterable[Document] = withDirectoryReader { directoryReaderOption =>
     directoryReaderOption.map { directoryReader =>
-      (0 until directoryReader.numDocs).map(directoryReader.document)
+      (0 until directoryReader.numDocs).view.map(directoryReader.document)
     }.getOrElse(Iterable.empty)
   }
 
