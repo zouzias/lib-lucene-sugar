@@ -13,7 +13,7 @@ Lucene API is very verbose and designed around the semantic of the Java language
 
 The basic idea of Lucene Sugar is to turn some operations on their head. Insead of
 
-```
+```scala
 val doc = new Document
 doc.add(new StringField("string_field", "aString", Store.YES))
 doc.add(new LongField("long_field", 123456L, Store.NO))
@@ -22,7 +22,7 @@ doc.add(new StoredField("int_field", 10))
 
 how about:
 
-```
+```scala
 val doc = new Document
 doc.addIndexedStoredField("string_field", "aString")
 doc.addIndexedOnlyField("long_field", 123456L)
