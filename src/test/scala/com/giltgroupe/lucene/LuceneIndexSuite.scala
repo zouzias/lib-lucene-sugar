@@ -1,8 +1,7 @@
 package com.giltgroupe.lucene
 
-import org.scalatest.{OptionValues, BeforeAndAfter, FunSuite}
+import org.scalatest.{BeforeAndAfter, FunSuite}
 import org.scalatest.matchers.ShouldMatchers
-import org.scalatest.prop.Checkers
 import org.apache.lucene.document.{StringField, Document}
 import org.apache.lucene.document.Field.Store
 import org.apache.lucene.search.TermQuery
@@ -59,4 +58,19 @@ class LuceneIndexSuite extends FunSuite with BeforeAndAfter with ShouldMatchers 
     qp should not equal null
     qp.parse("avalue").toString should equal("afield:avalue")
   }
+
+  test("should allow deletion of documents") {
+    luceneIndex.withIndexWriter { indexWriter =>
+      indexWriter.addDocument(documentInIndex)
+    }
+
+    luceneIndex.allDocuments should have size 1
+
+    luceneIndex.withIndexWriter { indexWriter =>
+      indexWriter.deleteDocuments(new Term("field", "value"))
+    }
+
+    luceneIndex.allDocuments should have size 0
+  }
+
 }
