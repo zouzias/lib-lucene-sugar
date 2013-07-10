@@ -28,7 +28,7 @@ object LuceneFieldHelpers {
    * a Lucene index.
    */
   @implicitNotFound("No member of type class LuceneFieldLike in scope for ${T}")
-  trait LuceneFieldLike[T] {
+  trait LuceneFieldLike[@specialized(scala.Int, scala.Long, scala.Float, scala.Double) T] {
     /**
      * Adds an indexed and optionally stored field to the Lucene Document
      *
