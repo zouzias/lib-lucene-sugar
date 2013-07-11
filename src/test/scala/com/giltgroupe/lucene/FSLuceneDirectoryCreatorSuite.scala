@@ -5,7 +5,6 @@ import org.scalatest.matchers.ShouldMatchers
 import java.io.File
 import com.google.common.io.Files
 import org.apache.lucene.store.{MMapDirectory, Directory, SimpleFSDirectory}
-import org.mockito.Mockito
 import org.scalatest.mock.MockitoSugar
 
 class FSLuceneDirectoryCreatorSuite extends FunSuite with ShouldMatchers with BeforeAndAfter with MockitoSugar {

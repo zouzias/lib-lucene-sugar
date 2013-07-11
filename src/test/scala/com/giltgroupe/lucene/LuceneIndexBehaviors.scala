@@ -1,0 +1,90 @@
+package com.giltgroupe.lucene
+
+import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.FlatSpec
+import org.apache.lucene.document.{StringField, Document}
+import org.apache.lucene.document.Field.Store
+import org.apache.lucene.search.TermQuery
+import org.apache.lucene.index.Term
+
+trait LuceneIndexBehaviors extends ShouldMatchers { self: FlatSpec =>
+
+  val documentInIndex: Document = {
+    val doc = new Document
+    doc.add(new StringField("field", "value", Store.YES))
+    doc
+  }
+
+  def emptyIndex(newIndex: => LuceneIndex) {
+
+    it should "contain no documents" in {
+      val luceneIndex = newIndex
+      luceneIndex.allDocuments should be('empty)
+    }
+
+  }
+
+  def searchableIndex(newIndex: => LuceneIndex) {
+    it should "search for a document" in {
+      val luceneIndex = newIndex
+
+      luceneIndex.withIndexWriter { indexWriter =>
+        indexWriter.addDocument(documentInIndex)
+      }
+
+      val successfulQuery = new TermQuery(new Term("field", "value"))
+      val unsuccessfulQuery = new TermQuery(new Term("field", "othervalue"))
+
+      val results = luceneIndex.searchTopDocuments(successfulQuery, 1)
+      results should have size 1
+      results.head.get("field") should equal("value")
+
+      luceneIndex.searchTopDocuments(unsuccessfulQuery, 1) should be('empty)
+    }
+
+    it should "provide a QueryParser for a default field" in {
+      val luceneIndex = newIndex
+      val qp = luceneIndex.queryParserForDefaultField("afield")
+      qp should not equal null
+      qp.parse("avalue").toString should equal("afield:avalue")
+    }
+  }
+
+  def writableIndex(newIndex: => LuceneIndex) {
+    it should "provide an IndexWriter" in {
+      val luceneIndex = newIndex
+
+      luceneIndex.withIndexWriter { indexWriter =>
+        luceneIndex should not equals null
+      }
+    }
+
+    it should "add a Document" in {
+      val luceneIndex = newIndex
+
+      luceneIndex.withIndexWriter { indexWriter =>
+        indexWriter.addDocument(documentInIndex)
+      }
+
+      luceneIndex.allDocuments should have size 1
+    }
+
+    it should "delete documents" in {
+      val luceneIndex = newIndex
+
+      luceneIndex.withIndexWriter { indexWriter =>
+        indexWriter.addDocument(documentInIndex)
+      }
+
+      luceneIndex.allDocuments should have size 1
+
+      luceneIndex.withIndexWriter { indexWriter =>
+        indexWriter.deleteDocuments(new Term("field", "value"))
+      }
+
+      luceneIndex.allDocuments should have size 0
+    }
+
+  }
+
+}
