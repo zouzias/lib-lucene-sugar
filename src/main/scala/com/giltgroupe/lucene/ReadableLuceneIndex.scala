@@ -9,7 +9,7 @@ import org.apache.lucene.document.Document
  * Base trait for simple Lucene indexes
  * The index gets built once at construction
  */
-trait LuceneIndex extends LuceneIndexWriter with LuceneVersion { self: LuceneDirectory with LuceneAnalyzerProvider =>
+trait ReadableLuceneIndex extends LuceneVersion { self: LuceneDirectory with LuceneAnalyzerProvider =>
 
   /**
    * Returns a new QueryParser that defaults to the provided field

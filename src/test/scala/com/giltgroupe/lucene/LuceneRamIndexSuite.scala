@@ -5,7 +5,7 @@ import org.scalatest.FlatSpec
 class LuceneRamIndexSuite extends FlatSpec with LuceneIndexBehaviors {
 
   def ramIndex = {
-    new LuceneIndex with LuceneStandardAnalyzer with RamLuceneDirectory
+    new ReadableLuceneIndex with WritableLuceneIndex with LuceneStandardAnalyzer with RamLuceneDirectory
   }
 
   it should behave like emptyIndex(ramIndex)

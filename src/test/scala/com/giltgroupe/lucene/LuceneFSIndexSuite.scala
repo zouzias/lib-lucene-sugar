@@ -8,7 +8,7 @@ class LuceneFSIndexSuite extends FlatSpec with LuceneIndexBehaviors {
 
   def fsIndex = {
     val directoryFile = Files.createTempDir()
-    new LuceneIndex with LuceneStandardAnalyzer with FSLuceneDirectory with SimpleFSLuceneDirectoryCreator with LuceneIndexPathProvider {
+    new ReadableLuceneIndex with WritableLuceneIndex with LuceneStandardAnalyzer with FSLuceneDirectory with SimpleFSLuceneDirectoryCreator with LuceneIndexPathProvider {
       protected def withIndexPath[T](f: (File) => T): T = f(directoryFile)
     }
   }

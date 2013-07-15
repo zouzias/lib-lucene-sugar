@@ -15,7 +15,7 @@ trait LuceneIndexBehaviors extends ShouldMatchers { self: FlatSpec =>
     doc
   }
 
-  def emptyIndex(newIndex: => LuceneIndex) {
+  def emptyIndex(newIndex: => ReadableLuceneIndex) {
 
     it should "contain no documents" in {
       val luceneIndex = newIndex
@@ -24,13 +24,11 @@ trait LuceneIndexBehaviors extends ShouldMatchers { self: FlatSpec =>
 
   }
 
-  def searchableIndex(newIndex: => LuceneIndex) {
+  def searchableIndex(newIndex: => ReadableLuceneIndex with WritableLuceneIndex) {
     it should "search for a document" in {
       val luceneIndex = newIndex
 
-      luceneIndex.withIndexWriter { indexWriter =>
-        indexWriter.addDocument(documentInIndex)
-      }
+      luceneIndex.addDocument(documentInIndex)
 
       val successfulQuery = new TermQuery(new Term("field", "value"))
       val unsuccessfulQuery = new TermQuery(new Term("field", "othervalue"))
@@ -50,21 +48,12 @@ trait LuceneIndexBehaviors extends ShouldMatchers { self: FlatSpec =>
     }
   }
 
-  def writableIndex(newIndex: => LuceneIndex) {
-    it should "provide an IndexWriter" in {
-      val luceneIndex = newIndex
-
-      luceneIndex.withIndexWriter { indexWriter =>
-        luceneIndex should not equals null
-      }
-    }
+  def writableIndex(newIndex: => ReadableLuceneIndex with WritableLuceneIndex) {
 
     it should "add a Document" in {
       val luceneIndex = newIndex
 
-      luceneIndex.withIndexWriter { indexWriter =>
-        indexWriter.addDocument(documentInIndex)
-      }
+      luceneIndex.addDocument(documentInIndex)
 
       luceneIndex.allDocuments should have size 1
     }
@@ -72,9 +61,7 @@ trait LuceneIndexBehaviors extends ShouldMatchers { self: FlatSpec =>
     it should "delete documents" in {
       val luceneIndex = newIndex
 
-      luceneIndex.withIndexWriter { indexWriter =>
-        indexWriter.addDocument(documentInIndex)
-      }
+      luceneIndex.addDocument(documentInIndex)
 
       luceneIndex.allDocuments should have size 1
 

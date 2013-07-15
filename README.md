@@ -54,7 +54,7 @@ Lucene Sugar started as a way to sweeten and shorten the code we needed to write
 ```scala
 import import com.giltgroupe.lucene._
 
-val index = new LuceneIndex
+val index = new ReadableLuceneIndex
   with LuceneStandardAnalyzer
   with RamLuceneDirectory
 ```
@@ -64,7 +64,7 @@ val index = new LuceneIndex
 ```scala
 import import com.giltgroupe.lucene._
 
-val index = new LuceneIndex
+val index = new ReadableLuceneIndex
   with LuceneStandardAnalyzer 
   with FSLuceneDirectory
   with ServiceRootLucenePathProvider
@@ -78,7 +78,7 @@ Since this is a very common usage, the above can be shortened to:
 ```scala
 import import com.giltgroupe.lucene._
 
-val index = new LuceneIndex
+val index = new ReadableLuceneIndex
   with LuceneStandardAnalyzer 
   with DefaultFSLuceneDirectory 
 ```
@@ -88,7 +88,7 @@ In case you prefer to use `MMapDirectory` instead of `SimpleFSDirectory` you jus
 ```scala
 import import com.giltgroupe.lucene._
 
-val index = new LuceneIndex
+val index = new ReadableLuceneIndex
   with LuceneStandardAnalyzer 
   with FSLuceneDirectory
   with ServiceRootLucenePathProvider
@@ -126,21 +126,56 @@ import org.apache.lucene.document.Document
 import com.giltgroupe.lucene._
 import com.giltgroupe.lucene.LuceneFieldHelpers._
 
-val index = new LuceneIndex
+val index = new ReadableLuceneIndex
+  with WritableLuceneIndex
   with LuceneStandardAnalyzer 
   with DefaultFSLuceneDirectory 
 
-index.withIndexWriter { indexWriter =>
-  val doc = new Document
-  doc.addIndexedStoredField("aField", "aValue")
+val doc = new Document
+doc.addIndexedStoredField("aField", "aValue")
 
-  indexWriter.addDocument(doc)
-}
+index.addDocument(doc)
 
 val queryParser = index.queryParserForDefaultField("aField")
 val query = queryParser.parse("aValue")
 val results = index.searchTopDocuments(query, 1)
 ```
+
+### Implicit conversion of custom objects
+
+If you provide an implicit type class to convert an object to a Lucene Document, you can use the `addDocument` method to directly add the object to the index:
+
+```
+import org.apache.lucene.document.Document
+import com.giltgroupe.lucene._
+import com.giltgroupe.lucene.LuceneFieldHelpers._
+import com.giltgroupe.lucene.LuceneDocumentAdder._
+
+object Example {
+
+	case class Person(name: String)
+
+	implicit object PersonLuceneDocumentLike extends LuceneDocumentLike[Person] {
+		def toDocuments(person: Person): Iterable[Document] = {
+			val doc = new Document
+			doc.addIndexedStoredField("name", person.name)
+			Seq(doc)
+		}
+	}
+	
+	val index = new ReadableLuceneIndex
+  		with WritableLuceneIndex
+  		with LuceneStandardAnalyzer 
+  		with DefaultFSLuceneDirectory
+
+	person = Person("John")
+
+	index.addDocument(person)
+}
+
+
+```
+
 
 ## TODO
 
