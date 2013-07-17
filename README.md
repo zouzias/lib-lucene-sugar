@@ -43,6 +43,14 @@ Lucene Sugar started as a way to sweeten and shorten the code we needed to write
 
 * `sbt` >= 0.12.1
 
+## Usage
+
+Add the following dependency to `build.sbt`:
+
+```scala
+  "com.gilt" %% "lib-lucene-sugar" % "0.2.0"
+```
+
 ## Dependencies
 
 * Jsr305
