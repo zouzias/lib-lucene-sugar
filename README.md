@@ -145,7 +145,7 @@ val results = index.searchTopDocuments(query, 1)
 
 If you provide an implicit type class to convert an object to a Lucene Document, you can use the `addDocument` method to directly add the object to the index:
 
-```
+```scala
 import org.apache.lucene.document.Document
 import com.giltgroupe.lucene._
 import com.giltgroupe.lucene.LuceneFieldHelpers._
@@ -172,8 +172,6 @@ object Example {
 
 	index.addDocument(person)
 }
-
-
 ```
 
 
