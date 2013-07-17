@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/gilt/lib-lucene-sugar.png)](https://travis-ci.org/gilt/lib-lucene-sugar)
+
 # Lucene Sugar for Scala
 
 Some sugar for your Lucene indexes.
