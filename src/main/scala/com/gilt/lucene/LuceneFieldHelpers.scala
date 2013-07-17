@@ -18,7 +18,9 @@ object LuceneText {
  * Simple wrapper to differentiate between simple Strings and text strings
  * in the context of a Lucene index
  */
-case class LuceneText(text: String)
+case class LuceneText(text: String) {
+  override def toString: String = text
+}
 
 object LuceneFieldHelpers {
   import annotation.implicitNotFound
