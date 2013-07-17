@@ -2,7 +2,7 @@ organization := "com.gilt"
 
 name := "lib-lucene-sugar"
 
-crossScalaVersions := Seq("2.9.2", "2.10.0")
+crossScalaVersions := Seq("2.9.1", "2.9.2", "2.10.0")
 
 libraryDependencies ++= Seq(
     "com.google.code.findbugs" % "jsr305" % "2.0.1",
