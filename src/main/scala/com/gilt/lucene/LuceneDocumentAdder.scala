@@ -1,4 +1,4 @@
-package com.giltgroupe.lucene
+package com.gilt.lucene
 
 import javax.annotation.Nonnull
 import scala.annotation.implicitNotFound

@@ -1,4 +1,4 @@
-package com.giltgroupe.lucene
+package com.gilt.lucene
 
 import org.scalatest.{BeforeAndAfter, FunSuite}
 import org.scalatest.matchers.ShouldMatchers

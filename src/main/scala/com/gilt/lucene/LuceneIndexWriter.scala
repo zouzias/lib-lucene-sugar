@@ -1,4 +1,4 @@
-package com.giltgroupe.lucene
+package com.gilt.lucene
 
 import org.apache.lucene.index.{IndexWriter, IndexWriterConfig}
 import javax.annotation.Nonnull

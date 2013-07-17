@@ -1,4 +1,4 @@
-package com.giltgroupe.lucene
+package com.gilt.lucene
 
 import org.scalatest.FlatSpec
 import com.google.common.io.Files
