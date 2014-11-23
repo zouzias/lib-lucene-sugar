@@ -1,14 +1,15 @@
 package com.gilt.lucene
 
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 import org.scalatest.mock.MockitoSugar
 import org.apache.lucene.document.{Field, Document}
 import LuceneFieldHelpers._
 import LuceneText._
 import org.apache.lucene.index.IndexableField
+import scala.language.reflectiveCalls
 
-class LuceneFieldHelpersSuite extends FlatSpec with ShouldMatchers with MockitoSugar {
+class LuceneFieldHelpersSuite extends FlatSpec with Matchers with MockitoSugar {
 
   def searchableReadableField[T: LuceneFieldLike](value: T, valueReader: IndexableField => T) {
 

@@ -2,6 +2,7 @@ package com.gilt.lucene
 
 import org.apache.lucene.document._
 import org.apache.lucene.document.Field.Store
+import scala.language.implicitConversions
 
 object LuceneText {
 

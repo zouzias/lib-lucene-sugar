@@ -5,6 +5,7 @@ import scala.annotation.implicitNotFound
 import org.apache.lucene.document.Document
 import scala.collection.JavaConverters._
 import LuceneFieldHelpers._
+import scala.language.reflectiveCalls
 
 object LuceneDocumentAdder {
 

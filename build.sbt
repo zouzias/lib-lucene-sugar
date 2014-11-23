@@ -5,7 +5,9 @@ organization := "com.gilt"
 
 name := "lib-lucene-sugar"
 
-crossScalaVersions := Seq("2.9.1", "2.9.2", "2.10.0")
+crossScalaVersions := Seq("2.10.4", "2.11.4")
+
+scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-encoding", "utf8")
 
 libraryDependencies ++= Seq(
     "com.google.code.findbugs" % "jsr305" % "2.0.1",
@@ -13,7 +15,7 @@ libraryDependencies ++= Seq(
     "org.apache.lucene" % "lucene-core" % "4.3.0",
     "org.apache.lucene" % "lucene-analyzers-common" % "4.3.0",
     "org.apache.lucene" % "lucene-queryparser" % "4.3.0",
-    "org.scalatest" %% "scalatest" % "1.9.1" % "test",
+    "org.scalatest" %% "scalatest" % "2.2.2" % "test",
     "org.mockito" % "mockito-all" % "1.9.0" % "test"
 )
 
