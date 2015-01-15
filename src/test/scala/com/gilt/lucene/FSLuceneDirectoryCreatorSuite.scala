@@ -1,13 +1,13 @@
 package com.gilt.lucene
 
 import org.scalatest.{BeforeAndAfter, FunSuite}
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 import java.io.File
 import com.google.common.io.Files
 import org.apache.lucene.store.{MMapDirectory, Directory, SimpleFSDirectory}
 import org.scalatest.mock.MockitoSugar
 
-class FSLuceneDirectoryCreatorSuite extends FunSuite with ShouldMatchers with BeforeAndAfter with MockitoSugar {
+class FSLuceneDirectoryCreatorSuite extends FunSuite with Matchers with BeforeAndAfter with MockitoSugar {
 
   var directoryFile: File = _
 
@@ -16,13 +16,13 @@ class FSLuceneDirectoryCreatorSuite extends FunSuite with ShouldMatchers with Be
   }
 
   test("FSLuceneDirectoryCreator should check path nullity") {
-    evaluating {
+    a[NullPointerException] should be thrownBy {
       new FSLuceneDirectoryCreator {
         override protected def directoryConstructor = { file: File =>
           mock[Directory]
         }
       }.luceneDirectoryFromPath(null)
-    } should produce[NullPointerException]
+    }
   }
 
   test("SimpleFSLuceneDirectoryCreator should create a SimpleFSDirectory") {

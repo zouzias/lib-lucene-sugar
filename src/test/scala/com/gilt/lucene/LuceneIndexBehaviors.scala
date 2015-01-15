@@ -1,13 +1,13 @@
 package com.gilt.lucene
 
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 import org.scalatest.FlatSpec
 import org.apache.lucene.document.{StringField, Document}
 import org.apache.lucene.document.Field.Store
 import org.apache.lucene.search.TermQuery
 import org.apache.lucene.index.Term
 
-trait LuceneIndexBehaviors extends ShouldMatchers { self: FlatSpec =>
+trait LuceneIndexBehaviors extends Matchers { self: FlatSpec =>
 
   val documentInIndex: Document = {
     val doc = new Document
