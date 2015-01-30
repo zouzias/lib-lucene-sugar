@@ -19,7 +19,7 @@ trait LuceneIndexWriter { self: LuceneDirectory with LuceneAnalyzerProvider with
     try {
       f(iwriter)
     } finally {
-      iwriter.close(true)
+      iwriter.close()
     }
   }
 

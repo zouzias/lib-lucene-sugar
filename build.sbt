@@ -12,9 +12,9 @@ scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-encoding", "ut
 libraryDependencies ++= Seq(
     "com.google.code.findbugs" % "jsr305" % "2.0.1",
     "com.google.guava" % "guava" % "14.0.1",
-    "org.apache.lucene" % "lucene-core" % "4.3.0",
-    "org.apache.lucene" % "lucene-analyzers-common" % "4.3.0",
-    "org.apache.lucene" % "lucene-queryparser" % "4.3.0",
+    "org.apache.lucene" % "lucene-core" % "4.10.3",
+    "org.apache.lucene" % "lucene-analyzers-common" % "4.10.3",
+    "org.apache.lucene" % "lucene-queryparser" % "4.10.3",
     "org.scalatest" %% "scalatest" % "2.2.2" % "test",
     "org.mockito" % "mockito-all" % "1.9.0" % "test"
 )

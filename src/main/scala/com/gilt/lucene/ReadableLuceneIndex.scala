@@ -15,7 +15,7 @@ trait ReadableLuceneIndex extends LuceneVersion { self: LuceneDirectory with Luc
    * Returns a new QueryParser that defaults to the provided field
    */
   @Nonnull
-  def queryParserForDefaultField(@Nonnull field: String) = new QueryParser(luceneVersion, field, luceneAnalyzer)
+  def queryParserForDefaultField(@Nonnull field: String) = new QueryParser(field, luceneAnalyzer)
 
   /**
    * Process a Lucene query string and returns the resulting documents
