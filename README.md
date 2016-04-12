@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/gilt/lib-lucene-sugar.png)](https://travis-ci.org/gilt/lib-lucene-sugar)
+[![Build Status](https://travis-ci.org/zouzias/lib-lucene-sugar.png)](https://travis-ci.org/zouzias/lib-lucene-sugar.svg?branch=master)
+
 
 # Lucene Sugar for Scala
 
