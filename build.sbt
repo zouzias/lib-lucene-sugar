@@ -5,7 +5,7 @@ organization := "com.gilt"
 
 name := "lib-lucene-sugar"
 
-crossScalaVersions := Seq("2.10.4", "2.11.5")
+crossScalaVersions := Seq("2.10.6", "2.11.7")
 
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-encoding", "utf8")
 
